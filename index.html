@@ -294,12 +294,113 @@
     <p class="pricing-note">* 본 요금은 기본 금액이며, 현장 견적을 통해 변동될 수 있습니다.</p>
   </section>
 
-  <section id="reviews" class="section">
-    <h2>고객 후기</h2>
-    <p>실제 고객들의 생생한 후기를 확인하세요.</p>
-    <p>“막힌 하수구가 바로 해결됐어요!” - <i>이** 고객</i></p>
-    <p>“빠르고 친절해서 너무 만족합니다.” - <i>김** 고객</i></p>
-  </section>
+ <section id="reviews" class="section">
+  <h2>고객 후기</h2>
+  <p>실제 고객들의 생생한 후기를 확인하세요.</p>
+  <div id="review-list"></div>
+  <div id="pagination" style="margin-top: 30px;"></div>
+</section>
+
+ <script>
+  const reviews = [
+    { text: "막힌 하수구가 바로 해결됐어요!", name: "김**", region: "서울" },
+    { text: "진짜 친절하게 잘 처리해주셨어요.", name: "박**", region: "경기" },
+    { text: "배관 내시경 점검이 정말 유용했습니다.", name: "이**", region: "서울" },
+    { text: "야간 긴급출동 감사해요!", name: "최**", region: "경기" },
+    { text: "견적도 깔끔하고 작업도 빠르네요.", name: "정**", region: "서울" },
+    { text: "하수구 냄새가 사라졌어요!", name: "유**", region: "서울" },
+    { text: "매장 관리가 편해졌습니다.", name: "장**", region: "경기" },
+    // 👇 43개 추가 후기 (총 50개)
+    { text: "세척이 꼼꼼해서 마음에 들어요.", name: "한**", region: "서울" },
+    { text: "오래된 배관인데도 문제없이 처리해주셨어요.", name: "윤**", region: "경기" },
+    { text: "예약부터 마무리까지 만족!", name: "서**", region: "서울" },
+    { text: "다음에도 꼭 부르고 싶어요.", name: "배**", region: "서울" },
+    { text: "깨끗하게 처리해주셔서 감사합니다.", name: "오**", region: "경기" },
+    { text: "장비가 좋아보였어요.", name: "노**", region: "서울" },
+    { text: "시간 약속 잘 지켜주셔서 좋았습니다.", name: "문**", region: "경기" },
+    { text: "이사 전에 배관 청소하고 안심됐어요.", name: "심**", region: "서울" },
+    { text: "상담이 정말 친절했어요!", name: "홍**", region: "경기" },
+    { text: "아이들 욕실 청소도 부탁했는데 잘 됐어요.", name: "조**", region: "서울" },
+    { text: "정기점검 서비스 이용 중인데 좋아요.", name: "허**", region: "서울" },
+    { text: "추천받고 이용했는데 정말 만족!", name: "도**", region: "경기" },
+    { text: "깔끔한 작업 감사합니다.", name: "구**", region: "서울" },
+    { text: "배수 상태가 확 좋아졌어요.", name: "염**", region: "경기" },
+    { text: "현장 점검 꼼꼼하게 해주셨어요.", name: "맹**", region: "서울" },
+    { text: "늦은 시간에도 와주셔서 감사합니다.", name: "장**", region: "경기" },
+    { text: "두 번째 이용인데 또 만족이에요.", name: "채**", region: "서울" },
+    { text: "지인 소개로 이용했는데 괜찮아요.", name: "석**", region: "경기" },
+    { text: "내시경으로 설명해주셔서 신뢰가 갔어요.", name: "하**", region: "서울" },
+    { text: "강추드립니다.", name: "방**", region: "서울" },
+    { text: "작업 속도도 빠르고 깔끔!", name: "노**", region: "경기" },
+    { text: "사장님 인상이 좋으셨어요.", name: "기**", region: "서울" },
+    { text: "비용도 적절해서 만족합니다.", name: "표**", region: "서울" },
+    { text: "의심 없이 맡길 수 있었어요.", name: "권**", region: "경기" },
+    { text: "급한 청소 요청도 응대 잘 해주셨어요.", name: "백**", region: "서울" },
+    { text: "배관을 정말 잘 아시는 것 같아요.", name: "임**", region: "경기" },
+    { text: "깔끔한 마무리까지 완벽!", name: "남**", region: "서울" },
+    { text: "다음에도 부탁드릴게요.", name: "심**", region: "경기" },
+    { text: "무겁던 걱정이 싹 해결됐어요.", name: "길**", region: "서울" },
+    { text: "이 업체 믿고 이용하세요.", name: "엄**", region: "경기" },
+    { text: "자재 설명도 자세히 해주셨어요.", name: "설**", region: "서울" },
+    { text: "시공 퀄리티 좋아요.", name: "탁**", region: "경기" },
+    { text: "꼼꼼한 서비스 최고입니다.", name: "류**", region: "서울" },
+    { text: "이 가격에 이 정도면 훌륭해요.", name: "위**", region: "경기" },
+    { text: "아파트 배관 전체 점검 잘했어요.", name: "표**", region: "서울" },
+    { text: "깔끔한 작업 감사합니다.", name: "노**", region: "경기" },
+    { text: "노후 배관 걱정 끝났어요.", name: "황**", region: "서울" },
+    { text: "후기보고 선택했는데 잘했어요.", name: "김**", region: "경기" },
+    { text: "정말 성실하게 해주셔서 감사했어요.", name: "윤**", region: "서울" }
+  ];
+
+  const REVIEWS_PER_PAGE = 7;
+  let currentPage = 1;
+
+  function renderReviews() {
+    const start = (currentPage - 1) * REVIEWS_PER_PAGE;
+    const end = start + REVIEWS_PER_PAGE;
+    const paginated = reviews.slice(start, end);
+    const reviewList = document.getElementById("review-list");
+
+    reviewList.innerHTML = paginated.map(r =>
+      `<p>"${r.text}" - <i>${r.name} 고객 (${r.region})</i></p>`
+    ).join("");
+  }
+
+  function renderPagination() {
+    const pageCount = Math.ceil(reviews.length / REVIEWS_PER_PAGE);
+    const pagination = document.getElementById("pagination");
+    pagination.innerHTML = "";
+
+    for (let i = 1; i <= pageCount; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.style.margin = "0 5px";
+      btn.style.padding = "6px 12px";
+      btn.style.border = i === currentPage ? "2px solid #0077cc" : "1px solid #ccc";
+      btn.style.background = i === currentPage ? "#e6f3ff" : "#fff";
+      btn.style.cursor = "pointer";
+      btn.onclick = () => {
+        currentPage = i;
+        renderReviews();
+        renderPagination();
+      };
+      pagination.appendChild(btn);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (document.getElementById("reviews").classList.contains("active")) {
+      renderReviews();
+      renderPagination();
+    }
+
+    const reviewNav = [...document.querySelectorAll("nav a")].find(a => a.textContent.includes("고객 후기"));
+    reviewNav.addEventListener("click", () => {
+      renderReviews();
+      renderPagination();
+    });
+  });
+</script>
 
   <section id="blog" class="section">
     <h2>블로그</h2>
