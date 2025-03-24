@@ -5,6 +5,58 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Young&Home - 하수구 청소 전문</title>
   <style>
+    /* 눈에 확 띄는 스타일 */
+    body {
+      scroll-behavior: smooth;
+    }
+    h2 {
+      font-size: 36px;
+      color: #004488;
+      margin-bottom: 20px;
+      position: relative;
+    }
+    h2::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 4px;
+      background: #0077cc;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .section {
+      transition: all 0.6s ease;
+    }
+    .section.active h2 {
+      animation: popTitle 0.6s ease;
+    }
+    @keyframes popTitle {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .pricing-table th {
+      font-size: 18px;
+      letter-spacing: 1px;
+    }
+    .pricing-table td {
+      font-size: 16px;
+    }
+    .chat-button {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease;
+    }
+    .chat-button:hover {
+      transform: scale(1.05);
+    }
+    .equipment-card {
+      background: linear-gradient(to top, #e3f2fd, #ffffff);
+      border: 2px solid #a2c7e5;
+    }
+    .equipment-card:hover {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+      transform: translateY(-8px);
+    }
     body {
       font-family: 'Apple SD Gothic Neo', Arial, sans-serif;
       margin: 0;
