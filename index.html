@@ -1,425 +1,297 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Young&Home - 하수구 청소 전문</title>
   <style>
-    /* 눈에 확 띄는 스타일 */
-    body {
-      scroll-behavior: smooth;
+    body { 
+      font-family: 'Roboto', sans-serif; 
+      margin: 0; 
+      padding: 0; 
+      background-color: #f5f5f5; 
     }
-    h2 {
-      font-size: 36px;
-      color: #004488;
-      margin-bottom: 20px;
-      position: relative;
+    header { 
+      background: #0077cc; 
+      color: white; 
+      padding: 15px; 
+      text-align: center; 
     }
-    h2::after {
-      content: '';
-      position: absolute;
-      width: 60px;
-      height: 4px;
-      background: #0077cc;
-      bottom: -10px;
-      left: 50%;
-      transform: translateX(-50%);
+    nav { 
+      background: #0055aa; 
+      padding: 10px; 
+      text-align: center; 
+      position: sticky; 
+      top: 0; 
     }
-    .section {
-      transition: all 0.6s ease;
+    nav a { 
+      color: white; 
+      margin: 0 15px; 
+      text-decoration: none; 
+      font-size: 18px; 
+      font-weight: 500; 
     }
-    .section.active h2 {
-      animation: popTitle 0.6s ease;
+    nav a:hover { 
+      color: #ffcc00; 
     }
-    @keyframes popTitle {
-      0% { transform: scale(0.8); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    .hero { 
+      background-image: url('https://via.placeholder.com/1920x600/0077cc/ffffff?text=Young%26Home+-+배관+문제+해결'); 
+      background-size: cover; 
+      color: white; 
+      text-align: center; 
+      padding: 100px 0; 
+      font-size: 36px; 
+      font-weight: bold; 
     }
-    .pricing-table th {
-      font-size: 18px;
-      letter-spacing: 1px;
+    .section { 
+      padding: 50px 20px; 
+      text-align: center; 
+      min-height: 100vh; 
+      transition: all 0.3s ease; 
+      display: none; /* Controlled via showSection() */
     }
-    .pricing-table td {
-      font-size: 16px;
+    .section:nth-child(even) { 
+      background: #f4f4f4; 
     }
-    .chat-button {
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s ease;
+    footer { 
+      background: #004488; 
+      color: white; 
+      text-align: center; 
+      padding: 10px; 
     }
-    .chat-button:hover {
-      transform: scale(1.05);
+    .equipment img { 
+      max-width: 100%; 
+      height: auto; 
+      margin-top: 20px; 
     }
-    .equipment-card {
-      background: linear-gradient(to top, #e3f2fd, #ffffff);
-      border: 2px solid #a2c7e5;
+    .pricing-table { 
+      width: 80%; 
+      margin: auto; 
+      border-collapse: collapse; 
     }
-    .equipment-card:hover {
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
-      transform: translateY(-8px);
+    .pricing-table th, .pricing-table td { 
+      border: 1px solid #ddd; 
+      padding: 10px; 
+      text-align: center; 
     }
-    body {
-      font-family: 'Apple SD Gothic Neo', Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-      background: #f9f9f9;
+    .pricing-table th { 
+      background: #0077cc; 
+      color: white; 
     }
-    header {
-      background: #0077cc;
-      color: white;
-      padding: 10px 0 5px;
-      text-align: center;
+    .chat-button { 
+      background: #25d366; 
+      color: white; 
+      padding: 15px 30px; 
+      text-decoration: none; 
+      border-radius: 5px; 
+      font-size: 18px; 
     }
-    .logo-img { max-width: 360px; height: auto; margin: 20px 0; }
-    .logo {
-  font-size: 48px;
-  font-weight: bold;
-  background: linear-gradient(to right, white, black);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  animation: text-fade 3s ease-in-out infinite alternate;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-}
-    nav {
-      background: #0055aa;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    .logo { 
+      max-width: 200px; 
+      display: block; 
+      margin: 20px auto; 
     }
-    nav a {
-      color: white;
-      margin: 10px 15px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s, border-bottom 0.3s;
-      cursor: pointer;
-      padding-bottom: 5px;
+    .pricing-note { 
+      text-align: center; 
+      margin-top: 20px; 
+      font-size: 14px; 
+      font-weight: bold; 
     }
-    nav a.active {
-      border-bottom: 3px solid #ffcc00;
-    }
-    nav a:hover {
-      color: #ffcc00;
-    }
-    .hero {
-  background: linear-gradient(to right, #003366, #66a3ff);
-  color: white;
-  padding: 80px 20px;
-  text-align: center;
-  font-size: 48px;
-  font-weight: bold;
-  animation: fadeInHero 2s ease-in-out;
-}
-    .section {
-      display: none;
-      padding: 60px 20px;
-      text-align: center;
-      background: white;
-      margin: 30px 10px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.5s ease;
-    }
-    .section.active {
-      display: block;
-      opacity: 1;
-      transform: translateY(0);
-    }
-    .equipment img {
-      max-width: 250px;
-      height: auto;
-      margin: 20px 0;
-    }
-    .pricing-table {
-      width: 90%;
+    /* New styles for the company introduction section */
+    #about {
+      margin: 20vh auto; /* Centers the section vertically in the viewport */
       max-width: 800px;
-      margin: 30px auto;
-      border-collapse: collapse;
-    }
-    .pricing-table th, .pricing-table td {
-      border: 1px solid #ccc;
-      padding: 12px;
-    }
-    .pricing-table th {
-      background: #0077cc;
-      color: white;
-    }
-    .pricing-note {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #444;
-    }
-    .chat-button {
-      background: #25d366;
-      color: white;
-      padding: 15px 30px;
-      text-decoration: none;
-      border-radius: 8px;
-      font-size: 18px;
-      display: inline-block;
-      margin-top: 20px;
-    }
-    footer {
-      background: #004488;
-      color: white;
       text-align: center;
-      padding: 15px;
-      margin-top: 50px;
+      line-height: 1.8;
     }
-    @keyframes gradient-fade {
-    0% { background-position: 0% }
-    100% { background-position: 100% }
+    #about p {
+      margin: 20px 0; /* Adjust spacing between paragraphs */
+    }
+  </style>@media (max-width: 768px) {
+  nav a {
+    font-size: 14px;
+    margin: 0 10px;
   }
-  @keyframes fadeInHero {
-    0% { opacity: 0; transform: translateY(-20px); }
-    100% { opacity: 1; transform: translateY(0); }
+  .section {
+    padding: 30px 10px;
   }
-  @keyframes text-fade {
-  0% { filter: brightness(1); text-shadow: 2px 2px 6px rgba(0,0,0,0.2); }
-  100% { filter: brightness(1.4); text-shadow: 2px 2px 8px rgba(0,0,0,0.4); }
+  .pricing-table {
+    width: 100%;
+    margin: 20px auto;
+  }
+  .pricing-table th, .pricing-table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+  .chat-button {
+    font-size: 16px;
+    padding: 10px 20px;
+  }
 }
-    100% { filter: brightness(1.4); }
+@media (max-width: 480px) {
+  nav {
+    flex-wrap: wrap;
   }
-</style>
-  <script>
-    function showSection(id) {
-      document.querySelectorAll('.section').forEach(section => {
-        section.classList.remove('active');
-      });
-      document.getElementById(id).classList.add('active');
-
-      document.querySelectorAll('nav a').forEach(link => {
-        link.classList.remove('active');
-      });
-      const activeLink = [...document.querySelectorAll('nav a')].find(a => a.onclick?.toString().includes(id));
-      if (activeLink) activeLink.classList.add('active');
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-      showSection('about');
-    });
-  </script>
+  nav a {
+    display: block;
+    margin: 5px 0;
+  }
+  .hero {
+    font-size: 24px;
+    padding: 40px 20px;
+  }
+  .section {
+    padding: 20px 10px;
+  }
+  .pricing-table th, .pricing-table td {
+    font-size: 12px;
+    padding: 6px;
+  }
+  .chat-button {
+    font-size: 14px;
+    padding: 8px 15px;
+  }
+}
 </head>
 <body>
-
   <header>
-    
     <div class="logo">Young&Home</div>
     <nav>
-      <a onclick="showSection('about')">회사 소개</a>
-      <a onclick="showSection('equipment')">보유 장비</a>
-      <a onclick="showSection('pricing')">요금 안내</a>
-      <a onclick="showSection('reviews')">고객 후기</a>
-      <a onclick="showSection('blog')">블로그</a>
-      <a onclick="showSection('contact')">상담하기</a>
+      <ul>
+        <li><a onclick="showSection('about')">회사 소개</a></li>
+        <li><a onclick="showSection('equipment')">보유 장비</a></li>
+        <li><a onclick="showSection('service-pricing')">서비스 및 요금 안내</a></li>
+        <li><a onclick="showSection('reviews')">고객후기</a></li>
+        <li><a onclick="showSection('blog')">블로그</a></li>
+        <li><a onclick="showSection('contact')">상담하기</a></li>
+      </ul>
     </nav>
   </header>
-
   
-
-  <section id="about" class="section">
   <div class="hero">배관 문제? Young&Home이 해결해드립니다!</div>
-  <h2>회사 소개</h2>
-  <img src="https://github.com/Koyoungju810/Young-Home2.github.io/blob/55fb7d8faeb213eeda3da2709424e0a8639562d7/KakaoTalk_20250318_203744652.png?raw=true" alt="Young&Home 로고" class="logo-img" />
-  <p>영앤홈은 배관 설비 및 유지보수를 전문으로 하는 업체로,<br>신속하고 정확한 서비스 제공을 약속드립니다.</p>
-</section>
-
+  
+  <!-- Company Introduction Section (Centered) -->
+  <section id="about" class="content">
+    <h2>회사 소개</h2>
+    <p>Young&Home은 최첨단 장비와 숙련된 기술력으로 하수구 문제를 해결해드립니다.</p>
+    <img src="assets/images/KakaoTalk_20250318_203744652.png" alt="Young&Home 로고" class="logo">
+  </section>
+  
+  <!-- Equipment Section -->
   <section id="equipment" class="section">
     <h2>보유 장비</h2>
     <p>최신 하수구 청소 장비와 점검 도구를 보유하고 있습니다.</p>
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 40px; align-items: flex-start;">
-  <style>
-    .equipment-card {
-      background: #f0f8ff;
-      border: 1px solid #cce0ff;
-      border-radius: 12px;
-      padding: 15px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s ease;
-    }
-    .equipment-card:hover {
-      transform: translateY(-5px);
-    }
-  </style>
-      <div class="equipment-card" style="display: flex; flex-direction: column; align-items: center; width: 200px;">
-  <img src="https://raw.githubusercontent.com/Koyoungju810/Young-Home2.github.io/c79db7c6d950b0a655a9833a6a7e0c31980cf3d4/%EA%B3%A0%EC%95%95.jpg" alt="엔진 고압세척기" style="width: 200px; height: auto; border-radius: 8px;">
-  <a href="https://www.youtube.com/shorts/NiI5oU5pSBk?t=22&feature=share" target="_blank" style="margin-top: 8px; color: #0077cc; font-weight: bold;">▶ 유튜브 숏츠 보기</a>
-<p style="text-align: center; margin-top: 8px;"><strong>엔진 고압세척기</strong><br>강한 수압 배관 세척</p>
-</div>
-      <div class="equipment-card" style="display: flex; flex-direction: column; align-items: center; width: 200px;">
-        <img src="https://github.com/Koyoungju810/Young-Home2.github.io/blob/main/%EC%83%A4%ED%94%84%ED%8A%B8.jpg?raw=true" alt="플랙스 샤프트" style="width: 200px; height: auto; border-radius: 8px;">
-        <a href="https://www.youtube.com/shorts/1rLSm_ke_6Y?t=17&feature=share" target="_blank" style="margin-top: 8px; color: #0077cc; font-weight: bold;">▶ 유튜브 숏츠 보기</a>
-<p style="text-align: center; margin-top: 8px;"><strong>플랙스 샤프트</strong><br>막힘 배관 유연 청소</p>
-      </div>
-      <div>
-        <div class="equipment-card" style="display: flex; flex-direction: column; align-items: center; width: 200px;">
-  <img src="https://github.com/Koyoungju810/Young-Home2.github.io/blob/main/%EA%B4%80%EB%A1%9C%ED%83%90%EC%A7%80%EA%B8%B02.jpg?raw=true" alt="관로 탐지기" style="width: 200px; height: auto; border-radius: 8px;">
-<a href="https://www.youtube.com/shorts/kMtgTFhWiIw?feature=share" target="_blank" style="margin-top: 8px; color: #0077cc; font-weight: bold;">▶ 유튜브 숏츠 보기</a>
-<p style="text-align: center; margin-top: 8px;"><strong>관로 탐지기</strong><br>배관 구조 위치 파악</p>
-</div>
-      </div>
-      <div class="equipment-card" style="display: flex; flex-direction: column; align-items: center; width: 200px;">
-  <img src="https://github.com/Koyoungju810/Young-Home2.github.io/blob/main/%EB%82%B4%EC%8B%9C%EA%B2%BD.jpg?raw=true" alt="배관 내시경" style="width: 200px; height: auto; border-radius: 8px;">
-<a href="https://www.youtube.com/shorts/SAI1D8gCRpQ?feature=share" target="_blank" style="margin-top: 8px; color: #0077cc; font-weight: bold;">▶ 유튜브 숏츠 보기</a>
-<p style="text-align: center; margin-top: 8px;"><strong>배관 내시경</strong><br>배관 내부 실시간 확인</p>
-      </div>
-      <div class="equipment-card" style="display: flex; flex-direction: column; align-items: center; width: 200px;">
-  <img src="https://github.com/Koyoungju810/Young-Home2.github.io/blob/main/%EC%84%9D%EC%85%98%EA%B8%B0.jpg?raw=true" alt="석션기" style="width: 200px; height: auto; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-<a href="#" target="_blank" style="margin-top: 8px; color: #0077cc; font-weight: bold;">▶ 유튜브 숏츠 보기</a>
-<p style="text-align: center; margin-top: 8px;"><strong>석션기</strong><br>강한 흡입 이물질 제거</p>
-      </div>
-    </div>
+    <p><b>플랙스 샤프트</b> - 막힌 배관을 효과적으로 청소하는 유연한 샤프트</p>
+    <p><b>석션기</b> - 강력한 흡입력을 이용한 이물질 제거 장비</p>
+    <p><b>엔진 고압세척기</b> - 강한 수압으로 배관 내부를 깨끗하게 세척</p>
+    <p><b>관로 탐지기</b> - 배관의 위치와 구조를 정확히 파악하는 장비</p>
+    <p><b>배관 내시경</b> - 배관 내부 상태를 실시간으로 확인 가능한 카메라 장비</p>
   </section>
-
-  <section id="pricing" class="section">
-    <h2>요금 안내</h2>
+  
+  <!-- Service and Pricing Section -->
+  <section id="service-pricing" class="section">
+    <h2>서비스 및 요금 안내</h2>
     <p>투명한 가격 정책으로 믿을 수 있는 서비스를 제공합니다.</p>
     <table class="pricing-table">
       <tr>
-        <th>서비스</th><th>가격</th><th>비고</th>
+        <th>서비스</th>
+        <th>가격</th>
+        <th>비고</th>
       </tr>
-      <tr><td>하수구 청소</td><td>50,000원</td><td>일반 가정 및 소형 매장 기준</td></tr>
-      <tr><td>배관 내시경 점검</td><td>200,000원</td><td>길이에 따라 추가 비용 발생</td></tr>
-      <tr><td>고압 세척</td><td>800,000원</td><td>배관 크기 및 오염도에 따라 차등</td></tr>
-      <tr><td>누수 탐지 및 보수</td><td>별도 상담</td><td>현장 점검 후 견적 제공</td></tr>
-      <tr><td>계약 유지보수</td><td>월 200,000원</td><td>정기 점검 및 긴급 출동 포함</td></tr>
-      <tr><td>긴급 출동 서비스</td><td>40,000원</td><td>야간/주말 추가 요금 발생</td></tr>
+      <tr>
+        <td>하수구 청소</td>
+        <td>50,000원</td>
+        <td>일반 가정 및 소형 매장 기준</td>
+      </tr>
+      <tr>
+        <td>배관 내시경 점검</td>
+        <td>200,000원</td>
+        <td>배관 길이에 따라 추가 비용 발생 가능</td>
+      </tr>
+      <tr>
+        <td>고압 세척</td>
+        <td>800,000원</td>
+        <td>배관 크기 및 오염도에 따라 차등 적용</td>
+      </tr>
+      <tr>
+        <td>누수 탐지 및 보수</td>
+        <td>별도 상담</td>
+        <td>현장 점검 후 견적 제공</td>
+      </tr>
+      <tr>
+        <td>계약 유지보수</td>
+        <td>월 200,000원</td>
+        <td>정기 점검 및 긴급 출동 포함</td>
+      </tr>
+      <tr>
+        <td>긴급 출동 서비스</td>
+        <td>40,000원</td>
+        <td>야간 및 주말 추가 요금 발생</td>
+      </tr>
     </table>
-    <p class="pricing-note">* 본 요금은 기본 금액이며, 현장 견적을 통해 변동될 수 있습니다.</p>
+    <p class="pricing-note">*본 요금은 기본 금액이며, 현장 견적을 통해 추가 금액이 발생할 수 있습니다.</p>
   </section>
-
- <section id="reviews" class="section">
-  <h2>고객 후기</h2>
-  <p>실제 고객들의 생생한 후기를 확인하세요.</p>
-  <div id="review-list"></div>
-  <div id="pagination" style="margin-top: 30px;"></div>
-</section>
-
- <script>
-  const reviews = [
-    { text: "막힌 하수구가 바로 해결됐어요!", name: "김**", region: "서울" },
-    { text: "진짜 친절하게 잘 처리해주셨어요.", name: "박**", region: "경기" },
-    { text: "배관 내시경 점검이 정말 유용했습니다.", name: "이**", region: "서울" },
-    { text: "야간 긴급출동 감사해요!", name: "최**", region: "경기" },
-    { text: "견적도 깔끔하고 작업도 빠르네요.", name: "정**", region: "서울" },
-    { text: "하수구 냄새가 사라졌어요!", name: "유**", region: "서울" },
-    { text: "매장 관리가 편해졌습니다.", name: "장**", region: "경기" },
-    // 👇 43개 추가 후기 (총 50개)
-    { text: "세척이 꼼꼼해서 마음에 들어요.", name: "한**", region: "서울" },
-    { text: "오래된 배관인데도 문제없이 처리해주셨어요.", name: "윤**", region: "경기" },
-    { text: "예약부터 마무리까지 만족!", name: "서**", region: "서울" },
-    { text: "다음에도 꼭 부르고 싶어요.", name: "배**", region: "서울" },
-    { text: "깨끗하게 처리해주셔서 감사합니다.", name: "오**", region: "경기" },
-    { text: "장비가 좋아보였어요.", name: "노**", region: "서울" },
-    { text: "시간 약속 잘 지켜주셔서 좋았습니다.", name: "문**", region: "경기" },
-    { text: "이사 전에 배관 청소하고 안심됐어요.", name: "심**", region: "서울" },
-    { text: "상담이 정말 친절했어요!", name: "홍**", region: "경기" },
-    { text: "아이들 욕실 청소도 부탁했는데 잘 됐어요.", name: "조**", region: "서울" },
-    { text: "정기점검 서비스 이용 중인데 좋아요.", name: "허**", region: "서울" },
-    { text: "추천받고 이용했는데 정말 만족!", name: "도**", region: "경기" },
-    { text: "깔끔한 작업 감사합니다.", name: "구**", region: "서울" },
-    { text: "배수 상태가 확 좋아졌어요.", name: "염**", region: "경기" },
-    { text: "현장 점검 꼼꼼하게 해주셨어요.", name: "맹**", region: "서울" },
-    { text: "늦은 시간에도 와주셔서 감사합니다.", name: "장**", region: "경기" },
-    { text: "두 번째 이용인데 또 만족이에요.", name: "채**", region: "서울" },
-    { text: "지인 소개로 이용했는데 괜찮아요.", name: "석**", region: "경기" },
-    { text: "내시경으로 설명해주셔서 신뢰가 갔어요.", name: "하**", region: "서울" },
-    { text: "강추드립니다.", name: "방**", region: "서울" },
-    { text: "작업 속도도 빠르고 깔끔!", name: "노**", region: "경기" },
-    { text: "사장님 인상이 좋으셨어요.", name: "기**", region: "서울" },
-    { text: "비용도 적절해서 만족합니다.", name: "표**", region: "서울" },
-    { text: "의심 없이 맡길 수 있었어요.", name: "권**", region: "경기" },
-    { text: "급한 청소 요청도 응대 잘 해주셨어요.", name: "백**", region: "서울" },
-    { text: "배관을 정말 잘 아시는 것 같아요.", name: "임**", region: "경기" },
-    { text: "깔끔한 마무리까지 완벽!", name: "남**", region: "서울" },
-    { text: "다음에도 부탁드릴게요.", name: "심**", region: "경기" },
-    { text: "무겁던 걱정이 싹 해결됐어요.", name: "길**", region: "서울" },
-    { text: "이 업체 믿고 이용하세요.", name: "엄**", region: "경기" },
-    { text: "자재 설명도 자세히 해주셨어요.", name: "설**", region: "서울" },
-    { text: "시공 퀄리티 좋아요.", name: "탁**", region: "경기" },
-    { text: "꼼꼼한 서비스 최고입니다.", name: "류**", region: "서울" },
-    { text: "이 가격에 이 정도면 훌륭해요.", name: "위**", region: "경기" },
-    { text: "아파트 배관 전체 점검 잘했어요.", name: "표**", region: "서울" },
-    { text: "깔끔한 작업 감사합니다.", name: "노**", region: "경기" },
-    { text: "노후 배관 걱정 끝났어요.", name: "황**", region: "서울" },
-    { text: "후기보고 선택했는데 잘했어요.", name: "김**", region: "경기" },
-    { text: "정말 성실하게 해주셔서 감사했어요.", name: "윤**", region: "서울" }
-  ];
-
-  const REVIEWS_PER_PAGE = 7;
-  let currentPage = 1;
-
-  function renderReviews() {
-    const start = (currentPage - 1) * REVIEWS_PER_PAGE;
-    const end = start + REVIEWS_PER_PAGE;
-    const paginated = reviews.slice(start, end);
-    const reviewList = document.getElementById("review-list");
-
-    reviewList.innerHTML = paginated.map(r =>
-      `<p>"${r.text}" - <i>${r.name} 고객 (${r.region})</i></p>`
-    ).join("");
-  }
-
-  function renderPagination() {
-    const pageCount = Math.ceil(reviews.length / REVIEWS_PER_PAGE);
-    const pagination = document.getElementById("pagination");
-    pagination.innerHTML = "";
-
-    for (let i = 1; i <= pageCount; i++) {
-      const btn = document.createElement("button");
-      btn.textContent = i;
-      btn.style.margin = "0 5px";
-      btn.style.padding = "6px 12px";
-      btn.style.border = i === currentPage ? "2px solid #0077cc" : "1px solid #ccc";
-      btn.style.background = i === currentPage ? "#e6f3ff" : "#fff";
-      btn.style.cursor = "pointer";
-      btn.onclick = () => {
-        currentPage = i;
-        renderReviews();
-        renderPagination();
-      };
-      pagination.appendChild(btn);
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", function () {
-    if (document.getElementById("reviews").classList.contains("active")) {
-      renderReviews();
-      renderPagination();
-    }
-
-    const reviewNav = [...document.querySelectorAll("nav a")].find(a => a.textContent.includes("고객 후기"));
-    reviewNav.addEventListener("click", () => {
-      renderReviews();
-      renderPagination();
-    });
-  });
-</script>
-
+  
+  <!-- Reviews Section -->
+  <section id="reviews" class="section">
+    <h2>고객후기</h2>
+    <p>실제 고객들의 생생한 후기를 확인하세요.</p>
+    <ul>
+      <li>후기 1: 빠르고 깔끔하게 처리해주셨어요!</li>
+      <li>후기 2: 친절하고 전문적인 서비스가 좋았습니다.</li>
+    </ul>
+  </section>
+  
+  <!-- Blog Section -->
   <section id="blog" class="section">
     <h2>블로그</h2>
     <p>하수구 관리 및 유지보수 팁을 확인하세요.</p>
-    <p><a href="https://cafe.naver.com/okor810" target="_blank">네이버 카페 1</a></p>
-    <p><a href="https://cafe.naver.com/black42asm" target="_blank">네이버 카페 2</a></p>
-    <p><a href="https://blog.naver.com/nicetec_206" target="_blank">네이버 블로그</a></p>
+    <ul>
+      <li><a href="https://cafe.naver.com/okor810" target="_blank">네이버 카페 1</a></li>
+      <li><a href="https://cafe.naver.com/black42asm" target="_blank">네이버 카페 2</a></li>
+      <li><a href="https://blog.naver.com/nicetec_206" target="_blank">네이버 블로그</a></li>
+    </ul>
   </section>
-
+  
+  <!-- Contact Section with Chat and Call Buttons -->
   <section id="contact" class="section">
     <h2>상담하기</h2>
-    <p>문의사항이 있으시면 언제든지 연락 주세요.</p>
-    <a href="https://open.kakao.com/o/s6WiNRmh" class="chat-button">카카오톡 상담하기</a>
+    <p>문의사항이 있으시면 언제든지 연락주세요.</p>
+    <div>
+      <button class="chat-button" onclick="window.open('https://open.kakao.com/o/s6WiNRmh', '_blank')">실시간 채팅 상담</button>
+      <button class="call-button" onclick="window.location.href='tel:070-1234-1234'">전화 상담</button>
+    </div>
+    <p><b>상호:</b> Young&Home</p>
+    <p><b>연락처:</b> 070-1234-1234</p>
   </section>
-
+  
   <footer>
     <p>&copy; 2025 Young&Home. All rights reserved.</p>
   </footer>
-
+  
+  <!-- Define the showSection function to control section visibility -->  
+  <script>
+    function showSection(sectionId) {
+      // Hide all sections
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(sec => {
+        sec.style.display = 'none';
+      });
+      // Show the target section
+      const target = document.getElementById(sectionId);
+      if (target) {
+        target.style.display = 'block';
+        console.log(`Showing section: ${sectionId}`);
+      } else {
+        console.warn(`Section '${sectionId}' not found.`);
+      }
+    }
+  
+    // Default: show the 'about' section on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      showSection('about');
+      console.log('TestCase: Default section is about');
+    });
+  </script>
 </body>
 </html>
-
